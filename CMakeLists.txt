@@ -76,7 +76,7 @@ qt_add_executable(${PROJECT_NAME}
 add_library(scxctl-ui SHARED
     src/scx_utils.hpp src/scx_utils.cpp
     src/schedext-window-internal.hpp src/schedext-window-internal.cpp
-    include/schedext-window.hpp src/schedext-window.cpp
+    "${SCXCTLUI_INCLUDE_BUILD_DIR}/schedext-window.hpp" src/schedext-window.cpp
     src/schedext-window.ui
 )
 add_library(scxctl::scxctl-ui ALIAS scxctl-ui)
