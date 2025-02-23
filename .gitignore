@@ -1,0 +1,44 @@
+*.DS_Store
+*.dump
+*.ctu-info
+.cache
+.idea
+build
+build.sh
+cmake-build-release
+cmake-build-debug
+CMakeLists.txt.user
+subprojects/fmt
+subprojects/packagecache
+config-option-lib/target
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Executables
+*.exe
+*.out
+*.app

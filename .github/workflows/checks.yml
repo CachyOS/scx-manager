@@ -1,0 +1,57 @@
+name: Checks
+
+on:
+  push:
+    paths-ignore:
+    - '.github/ISSUE_TEMPLATE/**'
+    - 'LICENSE'
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cpp-linter:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install deps
+        run: |
+          pacman -Syu --noconfirm cmake ninja clang rust mold llvm qt6-base qt6-tools git
+        shell: bash
+
+      - name: Configure CMake
+        run: |
+          export AR=llvm-ar
+          export CC=clang
+          export CXX=clang++
+          export NM=llvm-nm
+          export RANLIB=llvm-ranlib
+
+          ./configure.sh -t=Debug -p=${{github.workspace}}/build --use_clang
+          ./build.sh
+        shell: bash
+
+      - name: Run clang-tidy
+        run: |
+          clang-tidy -p ${{github.workspace}}/build/Debug src/*.cpp
+        shell: bash
+
+  check_clang_format:
+    name: "Check C++ style"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run clang-format style check for C/C++/Protobuf programs.
+      uses: jidicula/clang-format-action@v4.11.0
+      with:
+        clang-format-version: '16'
+        check-path: 'src'
+

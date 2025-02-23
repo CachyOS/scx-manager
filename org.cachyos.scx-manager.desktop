@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=SchedExt GUI Manager
+GenericName=SCX Manager
+Keywords=cachyos;system;kernel;
+Exec=scx-manager
+Comment=Manage scx schedulers
+Icon=org.cachyos.scx-manager
+Terminal=false
+StartupNotify=false
+Categories=Qt;System;
+X-AppStream-Ignore=true

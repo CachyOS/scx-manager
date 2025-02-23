@@ -1,0 +1,12 @@
+-std=gnu++2a
+-DQT_CORE_LIB
+-DQT_GUI_LIB
+-DQT_NETWORK_LIB
+-DQT_WIDGETS_LIB
+-I/usr/include/qt
+-I/usr/include/qt/QtWidgets
+-I/usr/include/qt/QtGui
+-I/usr/include/qt/QtCore
+-I/usr/include/qt/QtNetwork
+-Iinclude
+-xc++

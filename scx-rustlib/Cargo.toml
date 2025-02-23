@@ -1,0 +1,29 @@
+[package]
+name = "scx-rustlib"
+version = "0.1.0"
+build = "build.rs"
+authors = ["Vladislav Nepogodin <nepogodin.vlad@gmail.com>"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = { version = "1", default-features = false, features = ["std"] }
+cxx = { version = "1", default-features = false, features = ["std"] }
+toml = "0.8"
+zbus = { version = "5", features = ["tokio"], default-features = false }
+tokio = { version = "1.39", features = ["macros", "sync", "rt-multi-thread"] }
+scx_loader = "1.0.9"
+
+[build-dependencies]
+cxx-build = "1"
+
+[lib]
+crate-type = ["staticlib"]
+
+[profile.release]
+strip = "symbols"
+panic = "abort"
+lto = true
+opt-level = 3
+codegen-units = 1

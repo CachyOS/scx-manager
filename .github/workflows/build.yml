@@ -1,0 +1,44 @@
+name: Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  BUILD_TYPE: Debug
+  CTEST_OUTPUT_ON_FAILURE: 1
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install deps
+        run: |
+          pacman -Syu --noconfirm cmake ninja clang rust mold llvm qt6-base qt6-tools git
+        shell: bash
+
+      - name: Configure CMake
+        run: |
+          export AR=llvm-ar
+          export CC=clang
+          export CXX=clang++
+          export NM=llvm-nm
+          export RANLIB=llvm-ranlib
+
+          ./configure.sh -t=Debug -p=${{github.workspace}}/build --use_clang
+        shell: bash
+
+      - name: Build
+        run: |
+          ./build.sh
+        shell: bash

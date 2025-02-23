@@ -1,0 +1,4 @@
+include(CMakeFindDependencyMacro)
+find_dependency(Qt6)
+
+include("${CMAKE_CURRENT_LIST_DIR}/@SCXCTLUI_TARGETS_EXPORT_NAME@.cmake")
