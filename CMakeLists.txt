@@ -36,7 +36,7 @@ CPMAddPackage(
 CPMAddPackage(
   NAME Corrosion
   GITHUB_REPOSITORY corrosion-rs/corrosion
-  GIT_TAG f783ee84b4d6c0ea2bc2d77125c39e9e24546a7d
+  GIT_TAG 715c235daef4b8ee67278f12256334ad3dd4c4ae
   EXCLUDE_FROM_ALL YES
 )
 
