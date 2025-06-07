@@ -99,15 +99,30 @@ impl Config {
     }
 
     /// Set the default scheduler with default mode
-    fn set_scx_sched_with_mode(
+    fn set_scx_sched_with_mode(&mut self, scx_sched: SupportedSched, sched_mode: SchedMode) {
+        self.config.default_sched = Some(scx_sched);
+        self.config.default_mode = Some(sched_mode);
+    }
+
+    /// Set args for the scheduler with mode
+    fn set_scx_args(
         &mut self,
         scx_sched: SupportedSched,
         sched_mode: SchedMode,
-    ) -> Result<()> {
-        self.config.default_sched = Some(scx_sched);
-        self.config.default_mode = Some(sched_mode);
+        sched_args: Vec<String>,
+    ) {
+        let scx_name: &str = scx_sched.into();
+        let sched = self.config.scheds.entry(scx_name.into()).or_default();
 
-        Ok(())
+        let args_to_set = match sched_mode {
+            SchedMode::Gaming => &mut sched.gaming_mode,
+            SchedMode::LowLatency => &mut sched.lowlatency_mode,
+            SchedMode::PowerSave => &mut sched.powersave_mode,
+            SchedMode::Server => &mut sched.server_mode,
+            SchedMode::Auto => &mut sched.auto_mode,
+        };
+
+        *args_to_set = Some(sched_args);
     }
 
     /// Disables auto start of scheduler, and stops current scheduler
@@ -213,8 +228,13 @@ impl Config {
         }
 
         // change default scheduler and default scheduler mode
-        self.set_scx_sched_with_mode(scx_sched, scx_mode)
-            .context("Cannot set default scx scheduler with mode")?;
+        self.set_scx_sched_with_mode(scx_sched.clone(), scx_mode.clone());
+
+        // change args for the scheduler with mode
+        // only if sched is not default for the mode
+        if sched_args != default_args {
+            self.set_scx_args(scx_sched, scx_mode, sched_args);
+        }
 
         // write scx_loader configuration to the temp file
         let tmp_config_path = "/tmp/scx_loader.toml";
