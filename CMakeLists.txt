@@ -30,7 +30,7 @@ find_package(Qt6 COMPONENTS Widgets LinguistTools REQUIRED)
 CPMAddPackage(
   NAME fmt
   GITHUB_REPOSITORY fmtlib/fmt
-  GIT_TAG 11.1.4
+  GIT_TAG 11.2.0
   EXCLUDE_FROM_ALL YES
 )
 CPMAddPackage(
