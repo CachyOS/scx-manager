@@ -13,7 +13,7 @@ cxx = { version = "1", default-features = false, features = ["std"] }
 toml = "0.8"
 zbus = { version = "5", features = ["tokio"], default-features = false }
 tokio = { version = "1.45", features = ["macros", "sync", "rt-multi-thread"] }
-scx_loader = "1.0.12"
+scx_loader = "1.0.13"
 
 [build-dependencies]
 cxx-build = "1"
