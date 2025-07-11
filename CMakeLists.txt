@@ -7,7 +7,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 ## name and version
 ##
 project(scx-manager
-        VERSION 1.15.2
+        VERSION 1.15.3
         LANGUAGES CXX)
 
 
