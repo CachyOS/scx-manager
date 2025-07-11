@@ -22,9 +22,12 @@
 #include "schedext-window.hpp"
 #include "scx_utils.hpp"
 
-#include <fstream>
-#include <string>
-#include <string_view>
+#include <algorithm>    // for any_of
+#include <array>        // for array
+#include <fstream>      // for ifstream
+#include <ranges>       // for ranges::*
+#include <string>       // for string
+#include <string_view>  // for string_view
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -228,9 +231,11 @@ void SchedExtWindow::on_sched_changed() noexcept {
 
     // Show or hide the profile selection UI based on the selected scheduler
     //
-    // NOTE: only scx_bpfland and scx_lavd support different preset profiles at
+    // NOTE: only some support different preset profiles at
     // the moment.
-    if (scheduler == "scx_bpfland" || scheduler == "scx_lavd") {
+    using namespace std::string_view_literals;
+    constexpr std::array supported_scheds{"scx_bpfland"sv, "scx_lavd"sv, "scx_flash"sv, "scx_p2dq"sv, "scx_tickless"sv};
+    if (std::ranges::any_of(supported_scheds, [&](auto&& supported_sched) { return supported_sched == scheduler; })) {
         m_ui->scheduler_profile_select_label->setVisible(true);
         m_ui->schedext_profile_combo_box->setVisible(true);
     } else {
