@@ -234,7 +234,7 @@ void SchedExtWindow::on_sched_changed() noexcept {
     // NOTE: only some support different preset profiles at
     // the moment.
     using namespace std::string_view_literals;
-    constexpr std::array supported_scheds{"scx_bpfland"sv, "scx_lavd"sv, "scx_flash"sv, "scx_p2dq"sv, "scx_tickless"sv};
+    constexpr std::array supported_scheds{"scx_bpfland"sv, "scx_lavd"sv, "scx_flash"sv, "scx_p2dq"sv, "scx_tickless"sv, "scx_cosmos"sv};
     if (std::ranges::any_of(supported_scheds, [&](auto&& supported_sched) { return supported_sched == scheduler; })) {
         m_ui->scheduler_profile_select_label->setVisible(true);
         m_ui->schedext_profile_combo_box->setVisible(true);
