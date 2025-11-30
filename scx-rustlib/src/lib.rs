@@ -193,7 +193,7 @@ impl Config {
         config_path: &str,
     ) -> Result<()> {
         // stop/disable 'scx.service' if its running/enabled on the system,
-        // overwise it will conflict
+        // otherwise it will conflict
         disable_scx_service();
 
         let default_args = self.get_scx_flags_for_mode(&scx_name, scx_mode)?;
@@ -294,7 +294,7 @@ pub fn get_supported_scheds() -> Result<Vec<String>> {
     });
 }
 
-/// Initialize config from first found config path, overwise fallback to default config
+/// Initialize config from first found config path, otherwise fallback to default config
 pub fn init_config(config_path: &str) -> Result<scx_loader::config::Config> {
     if Path::new(config_path).exists() {
         scx_loader::config::parse_config_file(config_path)
@@ -345,6 +345,6 @@ fn disable_scx_service() {
         println!("Disabling scx service");
     } else if is_scx_service_active() {
         spawn_child_process("/usr/bin/systemctl", &["stop", "-f", "scx"]);
-        println!("Stoping scx service");
+        println!("Stopping scx service");
     }
 }
