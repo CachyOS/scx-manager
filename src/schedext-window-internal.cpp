@@ -168,7 +168,7 @@ SchedExtWindow::SchedExtWindow(QWidget* parent)
         this,
         &SchedExtWindow::on_sched_profile_changed);
 
-    // Set currently runing scheduler mode
+    // Set currently running scheduler mode
     auto current_mode = m_scx_config->get_current_mode();
     if (current_mode.has_value()) {
         // NOTE: the index of profiles and scxmode values MUST match
