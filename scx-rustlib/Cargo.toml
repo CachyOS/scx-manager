@@ -10,7 +10,7 @@ edition = "2021"
 [dependencies]
 anyhow = { version = "1", default-features = false, features = ["std"] }
 cxx = { version = "1", default-features = false, features = ["std"] }
-toml = "1.0"
+toml = "1.1"
 zbus = { version = "5", features = ["tokio"], default-features = false }
 tokio = { version = "1.50", features = ["macros", "sync", "rt-multi-thread"] }
 scx_loader = { git = "https://github.com/sched-ext/scx-loader.git", branch = "main" }
