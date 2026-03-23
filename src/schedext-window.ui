@@ -171,6 +171,13 @@
         </spacer>
        </item>
        <item>
+        <widget class="QPushButton" name="cancel_button">
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="disable_button">
          <property name="text">
           <string>Disable</string>
