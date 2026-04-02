@@ -2,7 +2,7 @@
 <RCC version="1.0">
     <qresource prefix="/translations">
         <file alias="bg">lang/scx-manager_bg.qm</file>
-	<file alias="ca">lang/scx-manager_ca.qm</file>
+        <file alias="ca">lang/scx-manager_ca.qm</file>
         <file alias="cs">lang/scx-manager_cs.qm</file>
         <file alias="de">lang/scx-manager_de.qm</file>
         <file alias="pl">lang/scx-manager_pl.qm</file>
