@@ -2,8 +2,11 @@
 Type=Application
 Version=1.0
 Name=SchedExt GUI Manager
+Name[ja]=SchedExt GUI マネージャー
 GenericName=SCX Manager
+GenericName[ja]=SCX マネージャー
 Keywords=cachyos;system;kernel;
+Keywords[ja]=cachyos;system;kernel;システム;カーネル
 Exec=scx-manager
 Comment=Manage scx schedulers
 Icon=org.cachyos.scx-manager
