@@ -187,6 +187,7 @@ SchedExtWindow::SchedExtWindow(QWidget* parent)
     // Connect buttons signal
     connect(m_ui->apply_button, &QPushButton::clicked, this, &SchedExtWindow::on_apply);
     connect(m_ui->disable_button, &QPushButton::clicked, this, &SchedExtWindow::on_disable);
+    connect(m_ui->cancel_button, &QPushButton::clicked, this, &SchedExtWindow::close);
 }
 
 void SchedExtWindow::closeEvent(QCloseEvent* event) {

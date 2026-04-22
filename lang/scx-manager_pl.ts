@@ -40,6 +40,11 @@
     </message>
     <message>
         <location filename="../src/schedext-window.ui" line="176"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/schedext-window.ui" line="176"/>
         <source>Disable</source>
         <translation>Wyłącz</translation>
     </message>
