@@ -41,7 +41,7 @@
     <message>
         <location filename="../src/schedext-window.ui" line="176"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj</translation>
     </message>
     <message>
         <location filename="../src/schedext-window.ui" line="176"/>
