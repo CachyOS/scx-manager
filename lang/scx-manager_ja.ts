@@ -40,11 +40,16 @@
     </message>
     <message>
         <location filename="../src/schedext-window.ui" line="176"/>
+        <source>Cancel</source>
+        <translation>キャンセル</translation>
+    </message>
+    <message>
+        <location filename="../src/schedext-window.ui" line="183"/>
         <source>Disable</source>
         <translation>無効化</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window.ui" line="183"/>
+        <location filename="../src/schedext-window.ui" line="190"/>
         <source>Apply</source>
         <translation>適用</translation>
     </message>
@@ -66,17 +71,17 @@ scx_loader が動作していることを確認してください。
 アプリが正常に動作するために必要です</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="205"/>
+        <location filename="../src/schedext-window-internal.cpp" line="206"/>
         <source>Cannot disable scx_loader</source>
         <translation>scx_loader を無効化できません</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="223"/>
+        <location filename="../src/schedext-window-internal.cpp" line="224"/>
         <source>Cannot get scx flags from scx_loader configuration!</source>
         <translation>scx_loader の設定から scx フラグを取得できません。</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="259"/>
+        <location filename="../src/schedext-window-internal.cpp" line="260"/>
         <source>Cannot set default scx scheduler with mode! Scheduler %1 with mode %2</source>
         <translation>scx スケジューラ %1 を %2 モードでデフォルトに設定することはできません</translation>
     </message>
