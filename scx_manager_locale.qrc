@@ -6,6 +6,7 @@
         <file alias="cs">lang/scx-manager_cs.qm</file>
         <file alias="de">lang/scx-manager_de.qm</file>
         <file alias="es">lang/scx-manager_es.qm</file>
+        <file alias="fr">lang/scx-manager_fr.qm</file>
         <file alias="id">lang/scx-manager_id.qm</file>
         <file alias="ja">lang/scx-manager_ja.qm</file>
         <file alias="pl">lang/scx-manager_pl.qm</file>
