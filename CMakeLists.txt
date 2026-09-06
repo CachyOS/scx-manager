@@ -7,7 +7,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 ## name and version
 ##
 project(scx-manager
-        VERSION 1.15.12
+        VERSION 1.16.0
         LANGUAGES CXX)
 
 
@@ -30,7 +30,7 @@ find_package(Qt6 COMPONENTS Widgets LinguistTools REQUIRED)
 CPMAddPackage(
   NAME fmt
   GITHUB_REPOSITORY fmtlib/fmt
-  GIT_TAG 12.1.0
+  GIT_TAG 12.2.0
   EXCLUDE_FROM_ALL YES
 )
 CPMAddPackage(

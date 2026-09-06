@@ -6,6 +6,7 @@
         <file alias="cs">lang/scx-manager_cs.qm</file>
         <file alias="de">lang/scx-manager_de.qm</file>
         <file alias="es">lang/scx-manager_es.qm</file>
+        <file alias="fr">lang/scx-manager_fr.qm</file>
         <file alias="id">lang/scx-manager_id.qm</file>
         <file alias="it">lang/scx-manager_it.qm</file>
         <file alias="ja">lang/scx-manager_ja.qm</file>
@@ -13,5 +14,7 @@
         <file alias="ru">lang/scx-manager_ru.qm</file>
         <file alias="sk">lang/scx-manager_sk.qm</file>
         <file alias="tr">lang/scx-manager_tr.qm</file>
+        <file alias="zh_CN">lang/scx-manager_zh_CN.qm</file>
+        <file alias="zh_TW">lang/scx-manager_zh_TW.qm</file>
     </qresource>
 </RCC>
