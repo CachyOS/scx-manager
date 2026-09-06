@@ -12,5 +12,7 @@
         <file alias="ru">lang/scx-manager_ru.qm</file>
         <file alias="sk">lang/scx-manager_sk.qm</file>
         <file alias="tr">lang/scx-manager_tr.qm</file>
+        <file alias="zh_CN">lang/scx-manager_zh_CN.qm</file>
+        <file alias="zh_TW">lang/scx-manager_zh_TW.qm</file>
     </qresource>
 </RCC>
