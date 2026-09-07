@@ -13,7 +13,7 @@ cxx = { version = "1", default-features = false, features = ["std"] }
 toml = "1.1"
 zbus = { version = "5", features = ["tokio"], default-features = false }
 tokio = { version = "1.53", features = ["macros", "sync", "rt-multi-thread"] }
-scx_loader = "1.1.3"
+scx_loader = { git = "https://github.com/sched-ext/scx-loader.git", branch = "main" }
 
 [build-dependencies]
 cxx-build = "1"
