@@ -88,6 +88,21 @@ auto get_current_scheduler() noexcept -> std::string {
     return current_sched;
 }
 
+// Whether the kernel command line has a nohz_full token (bare or nohz_full=<cpus>).
+// scx_tickless refuses to start without it.
+constexpr auto cmdline_has_nohz_full(std::string_view cmdline) noexcept -> bool {
+    using namespace std::string_view_literals;
+    return std::ranges::any_of(cmdline | std::views::split(' '), [](auto&& token) {
+        const std::string_view param{token.begin(), token.end()};
+        return param == "nohz_full"sv || param.starts_with("nohz_full="sv);
+    });
+}
+static_assert(cmdline_has_nohz_full("quiet nohz_full=2-7 rw"));
+static_assert(cmdline_has_nohz_full("nohz_full"));
+static_assert(!cmdline_has_nohz_full("quiet splash rw"));
+static_assert(!cmdline_has_nohz_full("nohz_fullx=1 foo.nohz_full=1 nohz=off"));
+static_assert(!cmdline_has_nohz_full(""));
+
 constexpr auto get_scx_mode_from_str(std::string_view scx_mode) noexcept -> scx::SchedMode {
     using namespace std::string_view_literals;
 
@@ -247,6 +262,18 @@ void SchedExtWindow::on_sched_changed() noexcept {
 }
 
 void SchedExtWindow::on_apply() noexcept {
+    using namespace std::string_view_literals;
+    if (m_ui->schedext_combo_box->currentText() == "scx_tickless"sv
+        && !cmdline_has_nohz_full(read_kernel_file("/proc/cmdline"sv))) {
+        const auto answer = QMessageBox::warning(this, "CachyOS Kernel Manager",
+            tr("scx_tickless needs nohz_full=<cpus> on the kernel command line, which is not set.\n"
+               "Without it the scheduler will fail to start.\n\nApply anyway?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+        if (answer != QMessageBox::Yes) {
+            return;
+        }
+    }
+
     m_ui->disable_button->setEnabled(false);
     m_ui->apply_button->setEnabled(false);
 
