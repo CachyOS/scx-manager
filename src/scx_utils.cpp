@@ -122,12 +122,24 @@ auto Config::scx_flags_for_mode(std::string_view scx_sched, SchedMode sched_mode
     return std::nullopt;
 }
 
-auto Config::apply_scheduler_change(std::string_view scx_sched, SchedMode sched_mode, std::string_view extra_flags, std::string_view filepath) noexcept -> bool {
+auto Config::scx_default_flags_for_mode(std::string_view scx_sched, SchedMode sched_mode) noexcept -> std::optional<QStringList> {
+    try {
+        const ::rust::Str scx_sched_rust(scx_sched.data(), scx_sched.size());
+        auto rust_vec  = m_config->get_scx_default_flags_for_mode(scx_sched_rust, static_cast<std::uint32_t>(sched_mode));
+        auto flags_vec = convert_rust_vec_string(std::move(rust_vec));
+        return convert_std_vec_into_stringlist(std::move(flags_vec));
+    } catch (const std::exception& e) {
+        fmt::print(stderr, "Failed to get default scx flags for the mode: {}\n", e.what());
+    }
+    return std::nullopt;
+}
+
+auto Config::apply_scheduler_change(std::string_view scx_sched, SchedMode sched_mode, std::string_view extra_flags, bool use_default_flags, std::string_view filepath) noexcept -> bool {
     try {
         const ::rust::Str scx_sched_rust(scx_sched.data(), scx_sched.size());
         const ::rust::Str extra_flags_rust(extra_flags.data(), extra_flags.size());
         const ::rust::Str filepath_rust(filepath.data(), filepath.size());
-        m_config->apply_scheduler_change(scx_sched_rust, static_cast<std::uint32_t>(sched_mode), extra_flags_rust, filepath_rust);
+        m_config->apply_scheduler_change(scx_sched_rust, static_cast<std::uint32_t>(sched_mode), extra_flags_rust, use_default_flags, filepath_rust);
         return true;
     } catch (const std::exception& e) {
         fmt::print(stderr, "Failed to apply scx scheduler change: {}\n", e.what());

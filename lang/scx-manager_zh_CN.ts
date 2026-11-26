@@ -39,17 +39,27 @@
         <translation>设置 sched-ext 额外调度器标志:</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window.ui" line="176"/>
+        <location filename="../src/schedext-window.ui" line="132"/>
+        <source>Remove the user-defined flags from the scx_loader configuration and use its default flags instead</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/schedext-window.ui" line="135"/>
+        <source>Use default options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/schedext-window.ui" line="186"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window.ui" line="183"/>
+        <location filename="../src/schedext-window.ui" line="193"/>
         <source>Disable</source>
         <translation>禁用</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window.ui" line="190"/>
+        <location filename="../src/schedext-window.ui" line="200"/>
         <source>Apply</source>
         <translation>应用</translation>
     </message>
@@ -57,12 +67,12 @@
 <context>
     <name>scxctl::impl::SchedExtWindow</name>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="122"/>
+        <location filename="../src/schedext-window-internal.cpp" line="123"/>
         <source>Cannot initialize scx_loader configuration</source>
         <translation>无法初始化 scx_loader 配置</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="138"/>
+        <location filename="../src/schedext-window-internal.cpp" line="139"/>
         <source>Cannot get information from scx_loader!
 Is it working?
 This is needed for the app to work properly</source>
@@ -71,17 +81,17 @@ This is needed for the app to work properly</source>
 这是应用程序正常运行所必需的</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="206"/>
+        <location filename="../src/schedext-window-internal.cpp" line="215"/>
         <source>Cannot disable scx_loader</source>
         <translation>无法禁用 scx_loader</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="224"/>
+        <location filename="../src/schedext-window-internal.cpp" line="239"/>
         <source>Cannot get scx flags from scx_loader configuration!</source>
         <translation>无法从 scx_loader 配置中获取 scx 标志！</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="260"/>
+        <location filename="../src/schedext-window-internal.cpp" line="284"/>
         <source>Cannot set default scx scheduler with mode! Scheduler %1 with mode %2</source>
         <translation>无法设置默认 scx 调度器及其模式！调度器 %1，模式 %2</translation>
     </message>

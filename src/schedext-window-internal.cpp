@@ -42,6 +42,7 @@
 #pragma GCC diagnostic ignored "-Wconversion"
 #endif
 
+#include <QCheckBox>
 #include <QMessageBox>
 #include <QProcess>
 #include <QStringList>
@@ -146,6 +147,8 @@ SchedExtWindow::SchedExtWindow(QWidget* parent)
 
         m_ui->schedext_flags_edit->setHidden(true);
         m_ui->scheduler_set_flags_label->setHidden(true);
+
+        m_ui->schedext_default_options_checkbox->setHidden(true);
         return;
     }
 
@@ -188,6 +191,12 @@ SchedExtWindow::SchedExtWindow(QWidget* parent)
     connect(m_ui->apply_button, &QPushButton::clicked, this, &SchedExtWindow::on_apply);
     connect(m_ui->disable_button, &QPushButton::clicked, this, &SchedExtWindow::on_disable);
     connect(m_ui->cancel_button, &QPushButton::clicked, this, &SchedExtWindow::close);
+
+    // Use the scx_loader default options instead of the user-defined flags
+    connect(m_ui->schedext_default_options_checkbox,
+        &QCheckBox::toggled,
+        this,
+        &SchedExtWindow::on_use_default_options_toggled);
 }
 
 void SchedExtWindow::closeEvent(QCloseEvent* event) {
@@ -215,8 +224,14 @@ void SchedExtWindow::on_sched_profile_changed() noexcept {
     const auto& current_profile  = m_ui->schedext_profile_combo_box->currentText().toStdString();
     const auto& scx_mode         = get_scx_mode_from_str(current_profile);
 
+    // while the default options are used, show the scx_loader default flags
+    // instead of the user-defined flags from the config
+    const auto& scx_flags_for_mode = m_ui->schedext_default_options_checkbox->isChecked()
+        ? m_scx_config->scx_default_flags_for_mode(current_selected, scx_mode)
+        : m_scx_config->scx_flags_for_mode(current_selected, scx_mode);
+
     auto sched_args = QStringList();
-    if (auto scx_flags_for_mode = m_scx_config->scx_flags_for_mode(current_selected, scx_mode); scx_flags_for_mode) {
+    if (scx_flags_for_mode) {
         if (!scx_flags_for_mode->empty()) {
             sched_args << std::move(*scx_flags_for_mode);
         }
@@ -225,6 +240,14 @@ void SchedExtWindow::on_sched_profile_changed() noexcept {
     }
 
     m_ui->schedext_flags_edit->setText(sched_args.join(' '));
+}
+
+void SchedExtWindow::on_use_default_options_toggled(bool checked) noexcept {
+    // the flags cannot be edited while the default options are used
+    m_ui->schedext_flags_edit->setDisabled(checked);
+
+    // refresh the shown flags to the ones which will be applied
+    on_sched_profile_changed();
 }
 
 void SchedExtWindow::on_sched_changed() noexcept {
@@ -251,12 +274,13 @@ void SchedExtWindow::on_apply() noexcept {
     m_ui->apply_button->setEnabled(false);
 
     // TODO(vnepogodin): refactor that
-    const auto& current_selected = m_ui->schedext_combo_box->currentText().toStdString();
-    const auto& current_profile  = m_ui->schedext_profile_combo_box->currentText().toStdString();
-    const auto& extra_flags      = m_ui->schedext_flags_edit->text().trimmed().toStdString();
-    const auto& scx_mode         = get_scx_mode_from_str(current_profile);
+    const auto& current_selected  = m_ui->schedext_combo_box->currentText().toStdString();
+    const auto& current_profile   = m_ui->schedext_profile_combo_box->currentText().toStdString();
+    const auto& extra_flags       = m_ui->schedext_flags_edit->text().trimmed().toStdString();
+    const auto& scx_mode          = get_scx_mode_from_str(current_profile);
+    const auto& use_default_flags = m_ui->schedext_default_options_checkbox->isChecked();
 
-    if (!m_scx_config->apply_scheduler_change(current_selected, scx_mode, extra_flags, m_config_path)) {
+    if (!m_scx_config->apply_scheduler_change(current_selected, scx_mode, extra_flags, use_default_flags, m_config_path)) {
         QMessageBox::critical(this, "CachyOS Kernel Manager", tr("Cannot set default scx scheduler with mode! Scheduler %1 with mode %2").arg(QString::fromStdString(current_selected), QString::fromStdString(current_profile)));
     }
 

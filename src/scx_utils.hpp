@@ -89,8 +89,12 @@ class Config {
     /// @brief Returns the scx flags for the given sched mode.
     auto scx_flags_for_mode(std::string_view scx_sched, SchedMode sched_mode) noexcept -> std::optional<QStringList>;
 
+    /// @brief Returns the scx_loader default flags for the given sched mode,
+    /// ignoring any user-defined flags from the config.
+    auto scx_default_flags_for_mode(std::string_view scx_sched, SchedMode sched_mode) noexcept -> std::optional<QStringList>;
+
     /// @brief Applies the scx scheduler with arguments/mode.
-    auto apply_scheduler_change(std::string_view scx_sched, SchedMode sched_mode, std::string_view extra_flags, std::string_view filepath) noexcept -> bool;
+    auto apply_scheduler_change(std::string_view scx_sched, SchedMode sched_mode, std::string_view extra_flags, bool use_default_flags, std::string_view filepath) noexcept -> bool;
 
     /// @brief Disables auto start of scheduler, and stops current scheduler.
     auto disable_scheduler(std::string_view filepath) noexcept -> bool;

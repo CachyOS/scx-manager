@@ -44,12 +44,21 @@ mod ffi {
             sched_mode: u32,
         ) -> Result<Vec<String>>;
 
+        /// Get the scx_loader default flags for the given sched mode,
+        /// ignoring any user-defined flags from the config
+        fn get_scx_default_flags_for_mode(
+            &self,
+            supported_sched: &str,
+            sched_mode: u32,
+        ) -> Result<Vec<String>>;
+
         /// Applies the scx scheduler with arguments/mode
         fn apply_scheduler_change(
             &mut self,
             scx_name: &str,
             scx_mode: u32,
             extra_flags: &str,
+            use_default_flags: bool,
             config_path: &str,
         ) -> Result<()>;
 
@@ -98,6 +107,18 @@ impl Config {
         Ok(args)
     }
 
+    fn get_scx_default_flags_for_mode(
+        &self,
+        supported_sched: &str,
+        sched_mode: u32,
+    ) -> Result<Vec<String>> {
+        let scx_sched = get_scx_from_str(supported_sched)?;
+        let sched_mode = convert_from_raw_mode(sched_mode)?;
+        let default_config = config::get_default_config();
+        let args = config::get_scx_flags_for_mode(&default_config, &scx_sched, sched_mode);
+        Ok(args)
+    }
+
     /// Set the default scheduler with default mode
     fn set_scx_sched_with_mode(&mut self, scx_sched: SupportedSched, sched_mode: SchedMode) {
         self.config.default_sched = Some(scx_sched);
@@ -123,6 +144,31 @@ impl Config {
         };
 
         *args_to_set = Some(sched_args);
+    }
+
+    /// Reset args of the scheduler with mode to none, causing scx_loader
+    /// to use its own default flags for the mode
+    fn reset_scx_args(&mut self, scx_sched: SupportedSched, sched_mode: SchedMode) {
+        let scx_name: &str = scx_sched.into();
+        if let Some(mut sched) = self.config.scheds.remove(scx_name) {
+            match sched_mode {
+                SchedMode::Gaming => sched.gaming_mode = None,
+                SchedMode::LowLatency => sched.lowlatency_mode = None,
+                SchedMode::PowerSave => sched.powersave_mode = None,
+                SchedMode::Server => sched.server_mode = None,
+                SchedMode::Auto => sched.auto_mode = None,
+            }
+
+            // only keep the entry if it still has user-defined flags for other modes
+            let has_any_args = sched.auto_mode.is_some()
+                || sched.gaming_mode.is_some()
+                || sched.lowlatency_mode.is_some()
+                || sched.powersave_mode.is_some()
+                || sched.server_mode.is_some();
+            if has_any_args {
+                self.config.scheds.insert(scx_name.into(), sched);
+            }
+        }
     }
 
     /// Disables auto start of scheduler, and stops current scheduler
@@ -190,29 +236,45 @@ impl Config {
         scx_name: &str,
         scx_mode: u32,
         extra_flags: &str,
+        use_default_flags: bool,
         config_path: &str,
     ) -> Result<()> {
         // stop/disable 'scx.service' if its running/enabled on the system,
         // otherwise it will conflict
         disable_scx_service();
 
-        let default_args = self.get_scx_flags_for_mode(&scx_name, scx_mode)?;
         let scx_sched = get_scx_from_str(scx_name)?;
-        let scx_mode = convert_from_raw_mode(scx_mode)?;
+        let sched_mode = convert_from_raw_mode(scx_mode)?;
+
+        if use_default_flags {
+            // remove any user-defined flags for the sched mode,
+            // so scx_loader uses its own default flags
+            self.reset_scx_args(scx_sched.clone(), sched_mode.clone());
+        }
+
+        // resolves to the scx_loader defaults for modes without user-defined flags
+        let default_args = self.get_scx_flags_for_mode(scx_name, scx_mode)?;
 
         let mut sched_args: Vec<String> = vec![];
-        if !extra_flags.is_empty() {
+        if !use_default_flags && !extra_flags.is_empty() {
             // NOTE: should be Vec instead of str
             let mut extra_args: Vec<_> = extra_flags.split(' ').map(String::from).collect();
             sched_args.append(&mut extra_args);
         }
 
-        if sched_args == default_args {
-            println!("Applying scx '{scx_name}' with mode {scx_mode:?}");
+        if use_default_flags {
+            // NOTE: scx_loader caches the config at its startup, therefore the mode-based
+            // switch can't be used here, as it could apply outdated user-defined flags.
+            println!("Applying scx '{scx_name}' with default flags for mode {sched_mode:?}");
+            if let Err(scx_err) = self.switch_scheduler_with_args(scx_sched.clone(), &default_args) {
+                println!("Failed to switch '{scx_name}' with default flags: {scx_err}");
+            }
+        } else if sched_args == default_args {
+            println!("Applying scx '{scx_name}' with mode {sched_mode:?}");
             if let Err(scx_err) =
-                self.switch_scheduler_with_mode(scx_sched.clone(), scx_mode.clone())
+                self.switch_scheduler_with_mode(scx_sched.clone(), sched_mode.clone())
             {
-                println!("Failed to switch '{scx_name}' with mode {scx_mode:?}: {scx_err}");
+                println!("Failed to switch '{scx_name}' with mode {sched_mode:?}: {scx_err}");
             }
         } else {
             println!("Applying scx '{scx_name}' with args: {}", sched_args.join(" ").to_owned());
@@ -228,12 +290,12 @@ impl Config {
         }
 
         // change default scheduler and default scheduler mode
-        self.set_scx_sched_with_mode(scx_sched.clone(), scx_mode.clone());
+        self.set_scx_sched_with_mode(scx_sched.clone(), sched_mode.clone());
 
         // change args for the scheduler with mode
         // only if sched is not default for the mode
         if sched_args != default_args {
-            self.set_scx_args(scx_sched, scx_mode, sched_args);
+            self.set_scx_args(scx_sched, sched_mode, sched_args);
         }
 
         // write scx_loader configuration to the temp file

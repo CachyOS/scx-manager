@@ -39,17 +39,27 @@
         <translation>Atur flag tambahan penjadwal sched-ext:</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window.ui" line="176"/>
+        <location filename="../src/schedext-window.ui" line="132"/>
+        <source>Remove the user-defined flags from the scx_loader configuration and use its default flags instead</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/schedext-window.ui" line="135"/>
+        <source>Use default options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/schedext-window.ui" line="186"/>
         <source>Cancel</source>
         <translation>Batal</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window.ui" line="183"/>
+        <location filename="../src/schedext-window.ui" line="193"/>
         <source>Disable</source>
         <translation>Nonaktifkan</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window.ui" line="190"/>
+        <location filename="../src/schedext-window.ui" line="200"/>
         <source>Apply</source>
         <translation>Terapkan</translation>
     </message>
@@ -57,12 +67,12 @@
 <context>
     <name>scxctl::impl::SchedExtWindow</name>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="122"/>
+        <location filename="../src/schedext-window-internal.cpp" line="123"/>
         <source>Cannot initialize scx_loader configuration</source>
         <translation>Tidak dapat menginisialisasi konfigurasi scx_loader</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="138"/>
+        <location filename="../src/schedext-window-internal.cpp" line="139"/>
         <source>Cannot get information from scx_loader!
 Is it working?
 This is needed for the app to work properly</source>
@@ -71,17 +81,17 @@ Apakah scx_loader berfungsi?
 Ini diperlukan agar aplikasi dapat berjalan dengan baik</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="206"/>
+        <location filename="../src/schedext-window-internal.cpp" line="215"/>
         <source>Cannot disable scx_loader</source>
         <translation>Tidak dapat menonaktifkan scx_loader</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="224"/>
+        <location filename="../src/schedext-window-internal.cpp" line="239"/>
         <source>Cannot get scx flags from scx_loader configuration!</source>
         <translation>Tidak dapat memperoleh flag scx dari konfigurasi scx_loader!</translation>
     </message>
     <message>
-        <location filename="../src/schedext-window-internal.cpp" line="260"/>
+        <location filename="../src/schedext-window-internal.cpp" line="284"/>
         <source>Cannot set default scx scheduler with mode! Scheduler %1 with mode %2</source>
         <translation>Tidak dapat mengatur penjadwal scx bawaan dengan mode! Penjadwal %1 dengan mode %2</translation>
     </message>

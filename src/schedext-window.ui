@@ -123,9 +123,19 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="3">
-       <widget class="QLineEdit" name="schedext_flags_edit"/>
-      </item>
+       <item row="3" column="3">
+        <widget class="QLineEdit" name="schedext_flags_edit"/>
+       </item>
+       <item row="4" column="3">
+        <widget class="QCheckBox" name="schedext_default_options_checkbox">
+         <property name="toolTip">
+          <string>Remove the user-defined flags from the scx_loader configuration and use its default flags instead</string>
+         </property>
+         <property name="text">
+          <string>Use default options</string>
+         </property>
+        </widget>
+       </item>
      </layout>
     </item>
     <item>
