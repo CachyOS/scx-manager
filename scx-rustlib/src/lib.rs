@@ -121,7 +121,7 @@ impl Config {
 
     /// Set the default scheduler with default mode
     fn set_scx_sched_with_mode(&mut self, scx_sched: SupportedSched, sched_mode: SchedMode) {
-        self.config.default_sched = Some(scx_sched);
+        self.config.default_sched = Some(scx_sched.into());
         self.config.default_mode = Some(sched_mode);
     }
 
